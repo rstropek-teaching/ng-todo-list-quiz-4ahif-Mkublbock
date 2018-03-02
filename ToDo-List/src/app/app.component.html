@@ -9,6 +9,9 @@
     <td>
       AssignedTo
     </td>
+    <td>
+      Done
+    </td>
   </tr>
   <tr *ngFor="let item of todos | async">
     <td>
@@ -19,6 +22,9 @@
     </td>
     <td>
       {{ item.assignedTo }}
+    </td>
+    <td>
+      {{ item.done }}
     </td>
   </tr>
 </table>

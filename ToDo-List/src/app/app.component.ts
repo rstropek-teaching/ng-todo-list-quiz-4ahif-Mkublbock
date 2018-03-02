@@ -10,6 +10,7 @@ interface ITodo {
   id: number;
   description: string;
   assignedTo: string;
+  done: boolean;
 }
 
 @Component({
