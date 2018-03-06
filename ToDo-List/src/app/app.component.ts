@@ -23,7 +23,7 @@ interface ITodo {
 export class AppComponent {
   public people: Observable<IPerson[]>;
   public todos: Observable<ITodo[]>;
-  public API_URL = 'http://localhost:8080/api/';
+  public API_URL = 'http://localhost:8080/api';
 
 
   constructor(private httpClient: HttpClient) {
@@ -31,11 +31,12 @@ export class AppComponent {
   }
 
   showUndone() {
-    this.todos = this.httpClient.get<ITodo[]>(this.API_URL + 'todos').map(todo => todo.filter(element => element.done === false));
+    this.todos = this.httpClient.get<ITodo[]>(this.API_URL + '/todos').
+    map(todo => todo.filter(element => element.done === false || element.done == null));
   }
 
   getItems() {
-    this.todos = this.httpClient.get<ITodo[]>(this.API_URL + 'todos');
+    this.todos = this.httpClient.get<ITodo[]>(this.API_URL + '/todos');
   }
 }
 
