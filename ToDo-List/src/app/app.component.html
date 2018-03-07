@@ -1,3 +1,36 @@
+<h2 style="text-align: center; font-size:200%;"> Hello {{currentUser}}! </h2>
+
+<div id="selectDiv">
+  <mat-form-field>
+    <mat-select placeholder="name" [(value)]="currentUser">
+      <mat-option *ngFor="let person of people | async" [value]="person.name">
+        {{person.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div style="text-align: center">
+  <button [disabled]="!currentUser" mat-raised-button (click)="enableForm()"> Add Todo-Item </button>
+</div>
+
+<div *ngIf="showForm" class="form-container">
+  <mat-form-field>
+    <textarea matInput placeholder="Description" #todoDescription></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Assign to" #todoAssignedTo>
+      <mat-option *ngFor="let person of people | async" [value]="person.name" >
+        {{person.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button (click)="addTodoItem(todoDescription.value, todoAssignedTo.value)"> Submit </button>
+
+</div>
+
 <mat-table #table [dataSource]="todos">
   <ng-container matColumnDef="todoID">
     <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
@@ -10,12 +43,12 @@
   </ng-container>
 
   <ng-container matColumnDef="assignedTo">
-    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{item.assginedTo}} </mat-cell>
+    <mat-header-cell *matHeaderCellDef> AssignedTo </mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{item.assignedTo}} </mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="done">
-    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> Done </mat-header-cell>
     <mat-cell *matCellDef="let item"> {{item.done}} </mat-cell>
   </ng-container>
 
@@ -23,5 +56,7 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<button mat-raised-button (click)="getItems()">Refresh Items</button>
-<button mat-raised-button (click)="showUndone()">Show Undone</button>
+<mat-checkbox [disabled]="!currentUser" [(ngModel)]="showUndone" (change)="toggleItems()" #undone>Show Undone</mat-checkbox>
+<mat-checkbox [disabled]="!currentUser" [(ngModel)]="showMine" (change)="toggleItems()" #mine>Show your todo-items</mat-checkbox>
+<button id="resetButton" mat-raised-button color="warn" (click)="reset()"> Reset </button>
+<button id="refreshButton" mat-raised-button (click)="refreshList()"> Refresh list </button>
