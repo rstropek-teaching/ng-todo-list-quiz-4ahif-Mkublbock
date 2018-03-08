@@ -22,7 +22,7 @@
 
   <mat-form-field>
     <mat-select placeholder="Assign to" #todoAssignedTo>
-      <mat-option *ngFor="let person of people | async; let i = index" [value]="person.name" >
+      <mat-option *ngFor="let person of people | async; let i = index" [value]="person.name">
         {{person.name}}
       </mat-option>
     </mat-select>
@@ -50,7 +50,18 @@
 
   <ng-container matColumnDef="done">
     <mat-header-cell *matHeaderCellDef> Done </mat-header-cell>
-    <mat-cell *matCellDef="let item; let i = index"><mat-checkbox [checked]="item.done===true" (change)="toggleDone($event, i)" [disabled]=!currentUser ></mat-checkbox> </mat-cell>
+    <mat-cell *matCellDef="let item">
+      <mat-checkbox [checked]="item.done===true" (change)="toggleDone($event, item.id)" [disabled]=!currentUser></mat-checkbox>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <button [disabled]=!currentUser mat-icon-button (click)="deleteItem(item.id)" >
+        <mat-icon svgIcon="delete"></mat-icon>
+        </button>
+    </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

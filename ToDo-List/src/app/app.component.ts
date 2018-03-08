@@ -5,6 +5,9 @@ import { MatTableDataSource } from '@angular/material';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
 import { FormGroup } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
+import { MatIconRegistry } from '@angular/material';
+
 
 interface IPerson {
   name: string;
@@ -23,7 +26,7 @@ interface ITodo {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  displayedColumns = ['todoID', 'description', 'assignedTo', 'done'];
+  displayedColumns = ['todoID', 'description', 'assignedTo', 'done', 'delete'];
   public people: Observable<IPerson[]>;
   public todos: Observable<ITodo[]>;
   showUndone = false;
@@ -32,7 +35,10 @@ export class AppComponent {
   currentUser;
   showForm = false;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
+    iconRegistry.addSvgIcon(
+      'delete',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/delete.svg'));
     this.getItems();
     this.getPeople();
   }
@@ -115,6 +121,13 @@ export class AppComponent {
       );
 
     }
+  }
+
+  deleteItem(id) {
+    console.log(id);
+    this.httpClient.delete(this.API_URL + '/todos/' + id).subscribe((val) => {
+      console.log('Delete succeeded', val);
+    });
 
   }
 
