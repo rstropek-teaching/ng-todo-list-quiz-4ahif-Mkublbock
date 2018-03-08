@@ -38,6 +38,7 @@ export class AppComponent {
   }
 
   toggleItems() {
+    console.log(this.currentUser + '\t' + this.showMine + '\t' + this.showUndone);
     if (this.showMine && this.showUndone === false) {
       this.todos = this.httpClient.get<ITodo[]>(this.API_URL + '/todos').
         map(todo => todo.filter(element => element.assignedTo === this.currentUser));
@@ -77,10 +78,14 @@ export class AppComponent {
     this.currentUser = null;
   }
 
-  addTodoItem(todoDescription, todoAssignedTo) {
-    const newItem: ITodo = { id: 10, description: todoDescription, assignedTo: todoAssignedTo };
-    console.log(newItem);
-    this.httpClient.post<ITodo>(this.API_URL + '/todos', newItem);
+  addTodoItem(todoDescription, todoAssignedTo, id) {
+    this.httpClient.post<ITodo>(this.API_URL + '/todos', {
+      'description': todoDescription,
+      'assignedTo': todoAssignedTo
+    }).subscribe(
+      (val) => {
+        console.log('Post successful');
+      });
     this.showForm = false;
   }
 
@@ -96,7 +101,6 @@ export class AppComponent {
           console.log('Patch call error', response);
         },
       );
-
 
     } else if (!checkbox.checked) {
       this.httpClient.patch(this.API_URL + '/todos/' + id, {

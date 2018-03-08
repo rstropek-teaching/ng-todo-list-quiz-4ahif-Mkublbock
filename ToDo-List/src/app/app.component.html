@@ -1,12 +1,13 @@
-<h2 style="text-align: center; font-size:200%;"> Hello {{currentUser}}! </h2>
+<h2 [hidden]=!currentUser style="text-align: center; font-size:200%;"> Hello {{currentUser}}! </h2>
 
 <div id="selectDiv">
   <mat-form-field>
-    <mat-select placeholder="name" [(value)]="currentUser">
+    <mat-select [(value)]="currentUser">
       <mat-option *ngFor="let person of people | async" [value]="person.name">
         {{person.name}}
       </mat-option>
     </mat-select>
+    <span [hidden]="currentUser" style="color:red; font-weight: bold">Choose a name first!</span>
   </mat-form-field>
 </div>
 
@@ -21,7 +22,7 @@
 
   <mat-form-field>
     <mat-select placeholder="Assign to" #todoAssignedTo>
-      <mat-option *ngFor="let person of people | async" [value]="person.name" >
+      <mat-option *ngFor="let person of people | async; let i = index" [value]="person.name" >
         {{person.name}}
       </mat-option>
     </mat-select>
@@ -49,7 +50,7 @@
 
   <ng-container matColumnDef="done">
     <mat-header-cell *matHeaderCellDef> Done </mat-header-cell>
-    <mat-cell *matCellDef="let item; let i = index"><mat-checkbox [checked]="item.done===true" (change)="toggleDone($event, i)" ></mat-checkbox> </mat-cell>
+    <mat-cell *matCellDef="let item; let i = index"><mat-checkbox [checked]="item.done===true" (change)="toggleDone($event, i)" [disabled]=!currentUser ></mat-checkbox> </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
