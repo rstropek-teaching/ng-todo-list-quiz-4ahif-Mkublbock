@@ -8,6 +8,9 @@
 mat-header-cell{
   font-size: 150%;
 }
+mat-cell{
+  overflow: visible;
+}
 #resetButton{
   float: right;
 }

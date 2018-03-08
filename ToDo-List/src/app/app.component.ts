@@ -31,7 +31,6 @@ export class AppComponent {
   public API_URL = 'http://localhost:8080/api';
   currentUser;
   showForm = false;
-  lastID;
 
   constructor(private httpClient: HttpClient) {
     this.getItems();
@@ -85,6 +84,34 @@ export class AppComponent {
     this.showForm = false;
   }
 
+  toggleDone(checkbox, id) {
+    if (checkbox.checked) {
+      this.httpClient.patch(this.API_URL + '/todos/' + id, {
+        'done': true,
+      }).subscribe(
+        (val) => {
+          console.log('Patch call successful', val);
+        },
+        response => {
+          console.log('Patch call error', response);
+        },
+      );
+
+
+    } else if (!checkbox.checked) {
+      this.httpClient.patch(this.API_URL + '/todos/' + id, {
+        'done': false,
+      }).subscribe(
+        (val) => {
+          console.log('Patch call successful', val);
+        },
+        response => {
+          console.log('Patch call error', response);
+        },
+      );
+
+    }
+
+  }
+
 }
-
-

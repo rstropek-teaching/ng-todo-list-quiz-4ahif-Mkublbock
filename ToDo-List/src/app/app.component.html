@@ -49,7 +49,7 @@
 
   <ng-container matColumnDef="done">
     <mat-header-cell *matHeaderCellDef> Done </mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{item.done}} </mat-cell>
+    <mat-cell *matCellDef="let item; let i = index"><mat-checkbox [checked]="item.done===true" (change)="toggleDone($event, i)" ></mat-checkbox> </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
