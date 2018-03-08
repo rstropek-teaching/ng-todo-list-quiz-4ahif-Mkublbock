@@ -1,4 +1,4 @@
-<h2 [hidden]=!currentUser style="text-align: center; font-size:200%;"> Hello {{currentUser}}! </h2>
+<h2 [hidden]=!currentUser style="text-align: center; font-size:300%; font-weight: bold"> Hello {{currentUser}}! </h2>
 
 <div id="selectDiv">
   <mat-form-field>
@@ -17,7 +17,7 @@
 
 <div *ngIf="showForm" class="form-container">
   <mat-form-field>
-    <textarea matInput placeholder="Description" #todoDescription></textarea>
+    <textarea matInput placeholder="Description" #todoDescription required></textarea>
   </mat-form-field>
 
   <mat-form-field>
@@ -28,8 +28,28 @@
     </mat-select>
   </mat-form-field>
 
-  <button mat-raised-button (click)="addTodoItem(todoDescription.value, todoAssignedTo.value)"> Submit </button>
+  <button [disabled]="!todoDescription.value" mat-raised-button (click)="addTodoItem(todoDescription.value, todoAssignedTo.value)">
+    Submit </button>
+  <button color="warn" mat-raised-button (click)="showForm = false"> Cancel </button>
 
+</div>
+
+<div *ngIf="showEditForm">
+  <mat-form-field>
+    <textarea matInput placeholder="Description" #todoDescription required [value]="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-select placeholder="Assign to" [value]="assignedTo" #todoAssignedTo>
+      <mat-option *ngFor="let person of people | async; let i = index" [value]="person.name">
+        {{person.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button [disabled]="!todoDescription.value" mat-raised-button (click)="addTodoItem(todoDescription.value, todoAssignedTo.value)">
+    Edit </button>
+  <button color="warn" mat-raised-button (click)="showEditForm = false"> Cancel </button>
 </div>
 
 <mat-table #table [dataSource]="todos">
@@ -55,12 +75,25 @@
     </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="edit">
+    <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
+    <mat-cell *matCellDef="let item">
+      <button [disabled]=!currentUser mat-icon-button (click)="enableEditForm(item.description, item.assignedTo); goToTop($event)">
+        <mat-icon svgIcon="edit"></mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-row *ngIf="showEditForm">
+
+  </mat-row>
+
   <ng-container matColumnDef="delete">
     <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
     <mat-cell *matCellDef="let item">
-      <button [disabled]=!currentUser mat-icon-button (click)="deleteItem(item.id)" >
+      <button [disabled]=!currentUser mat-icon-button (click)="deleteItem(item.id)">
         <mat-icon svgIcon="delete"></mat-icon>
-        </button>
+      </button>
     </mat-cell>
   </ng-container>
 

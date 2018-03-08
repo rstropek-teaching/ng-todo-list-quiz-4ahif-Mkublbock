@@ -26,19 +26,23 @@ interface ITodo {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  displayedColumns = ['todoID', 'description', 'assignedTo', 'done', 'delete'];
+  displayedColumns = ['todoID', 'description', 'assignedTo', 'done', 'edit', 'delete'];
   public people: Observable<IPerson[]>;
   public todos: Observable<ITodo[]>;
   showUndone = false;
   showMine = false;
   public API_URL = 'http://localhost:8080/api';
   currentUser;
-  showForm = false;
+  showForm = false; showEditForm = false;
+  description; assignedTo;
 
   constructor(private httpClient: HttpClient, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
       'delete',
-      sanitizer.bypassSecurityTrustResourceUrl('assets/delete.svg'));
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/delete.svg'));
+    iconRegistry.addSvgIcon(
+      'edit',
+      sanitizer.bypassSecurityTrustResourceUrl('assets/icons/edit.svg'));
     this.getItems();
     this.getPeople();
   }
@@ -62,6 +66,13 @@ export class AppComponent {
 
   enableForm() {
     this.showForm = true;
+  }
+
+  enableEditForm(description, assignedTo) {
+    console.log('Edit-button clicked' + '\t' + description + '\t' + assignedTo);
+    this.showEditForm = true;
+    this.description = description;
+    this.assignedTo = assignedTo;
   }
 
   getItems() {
@@ -91,8 +102,14 @@ export class AppComponent {
     }).subscribe(
       (val) => {
         console.log('Post successful');
+        this.refreshList();
       });
     this.showForm = false;
+  }
+
+  goToTop() {
+    console.log('scrolled');
+    window.scroll(0, 0);
   }
 
   toggleDone(checkbox, id) {
@@ -127,7 +144,12 @@ export class AppComponent {
     console.log(id);
     this.httpClient.delete(this.API_URL + '/todos/' + id).subscribe((val) => {
       console.log('Delete succeeded', val);
+      this.refreshList();
     });
+
+  }
+
+  editItem(id) {
 
   }
 
