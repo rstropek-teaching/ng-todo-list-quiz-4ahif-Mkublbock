@@ -34,7 +34,7 @@ export class AppComponent {
   public API_URL = 'http://localhost:8080/api';
   currentUser;
   showForm = false; showEditForm = false;
-  description; assignedTo;
+  description; assignedTo; id;
 
   constructor(private httpClient: HttpClient, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {
     iconRegistry.addSvgIcon(
@@ -68,11 +68,24 @@ export class AppComponent {
     this.showForm = true;
   }
 
-  enableEditForm(description, assignedTo) {
-    console.log('Edit-button clicked' + '\t' + description + '\t' + assignedTo);
+  enableEditForm(description, assignedTo, id) {
     this.showEditForm = true;
     this.description = description;
     this.assignedTo = assignedTo;
+    this.id = id;
+  }
+
+  editItem(newDescription, newAssignedTo) {
+    console.log('Edit-Button clicked' + '\t' + this.id + '\t' + newDescription + '\t' + newAssignedTo);
+    this.httpClient.patch<ITodo>(this.API_URL + '/todos/' + this.id, {
+      'description': newDescription,
+      'assignedTo': newAssignedTo
+    }).subscribe(
+      (val) => {
+        console.log('Edit successful');
+        this.refreshList();
+      });
+    this.showEditForm = false;
   }
 
   getItems() {
@@ -149,8 +162,5 @@ export class AppComponent {
 
   }
 
-  editItem(id) {
-
-  }
 
 }

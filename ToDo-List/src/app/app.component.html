@@ -47,7 +47,7 @@
     </mat-select>
   </mat-form-field>
 
-  <button [disabled]="!todoDescription.value" mat-raised-button (click)="addTodoItem(todoDescription.value, todoAssignedTo.value)">
+  <button [disabled]="!todoDescription.value" mat-raised-button (click)="editItem(todoDescription.value, todoAssignedTo.value)">
     Edit </button>
   <button color="warn" mat-raised-button (click)="showEditForm = false"> Cancel </button>
 </div>
@@ -78,15 +78,11 @@
   <ng-container matColumnDef="edit">
     <mat-header-cell *matHeaderCellDef>Edit</mat-header-cell>
     <mat-cell *matCellDef="let item">
-      <button [disabled]=!currentUser mat-icon-button (click)="enableEditForm(item.description, item.assignedTo); goToTop($event)">
+      <button [disabled]=!currentUser mat-icon-button (click)="enableEditForm(item.description, item.assignedTo, item.id); goToTop($event)">
         <mat-icon svgIcon="edit"></mat-icon>
       </button>
     </mat-cell>
   </ng-container>
-
-  <mat-row *ngIf="showEditForm">
-
-  </mat-row>
 
   <ng-container matColumnDef="delete">
     <mat-header-cell *matHeaderCellDef>Delete</mat-header-cell>
