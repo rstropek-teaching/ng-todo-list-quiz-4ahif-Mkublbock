@@ -8,7 +8,6 @@ import { FormGroup } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatIconRegistry } from '@angular/material';
 
-
 interface IPerson {
   name: string;
 }
@@ -18,6 +17,7 @@ interface ITodo {
   description: string;
   assignedTo?: string;
   done?: boolean;
+  dueDate?: Date;
 }
 
 @Component({
@@ -26,7 +26,7 @@ interface ITodo {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  displayedColumns = ['todoID', 'description', 'assignedTo', 'done', 'edit', 'delete'];
+  displayedColumns = ['description', 'assignedTo', 'dueDate', 'done', 'edit', 'delete'];
   public people: Observable<IPerson[]>;
   public todos: Observable<ITodo[]>;
   showUndone = false;
@@ -57,7 +57,7 @@ export class AppComponent {
         map(todo => todo.filter(element => element.done === false || element.done == null));
     } else if (this.showMine && this.showUndone) {
       this.todos = this.httpClient.get<ITodo[]>(this.API_URL + '/todos').
-        map(todo => todo.filter(element => element.done === false || element.done == null && element.assignedTo === this.currentUser));
+        map(todo => todo.filter(element => (element.done === false || element.done == null) && element.assignedTo === this.currentUser));
     } else if (!this.showMine && !this.showUndone) {
       this.getItems();
     }
@@ -161,6 +161,5 @@ export class AppComponent {
     });
 
   }
-
 
 }

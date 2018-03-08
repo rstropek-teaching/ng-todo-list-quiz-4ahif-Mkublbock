@@ -35,7 +35,7 @@ Feel free to extend the existing code if you need to. However, for solving this 
 
 1. As a user, I want to be able to add a new todo item. I want to enter a description and optionally assign the new todo item to a person (drop-down list of all available people). ✔
 
-1. As a user, I want to be able to edit an existing todo item. I want to be able to change description, assigned person (it has to be able to remove an assignment, too), and done-flag.
+1. As a user, I want to be able to edit an existing todo item. I want to be able to change description, assigned person (it has to be able to remove an assignment, too), and done-flag. ✔
 
 1. As a user, I want to be able to delete an existing todo item. ✔
 
@@ -55,4 +55,4 @@ Handling date values is not trivial in web applications. If you want an extra ch
 
 1. Use [*Angular Material*'s datepicker](https://material.angular.io/components/datepicker/overview) in the todo form.
 
-Send me a link to your solution thaat includes a working due date via a GitHub issue and you will get an extra point for your grade.
+Send me a link to your solution that includes a working due date via a GitHub issue and you will get an extra point for your grade.

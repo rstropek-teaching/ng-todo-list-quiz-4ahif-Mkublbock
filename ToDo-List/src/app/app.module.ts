@@ -4,7 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import {
   MatTableModule, MatButtonModule, MatSelectModule,
-  MatCheckboxModule, MatFormFieldModule, MatInputModule, MatIconModule
+  MatCheckboxModule, MatFormFieldModule, MatInputModule, MatIconModule,
+  MatDatepickerModule, MatNativeDateModule
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +25,9 @@ import { FormsModule } from '@angular/forms';
     MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
