@@ -75,11 +75,12 @@ export class AppComponent {
     this.id = id;
   }
 
-  editItem(newDescription, newAssignedTo) {
-    console.log('Edit-Button clicked' + '\t' + this.id + '\t' + newDescription + '\t' + newAssignedTo);
+  editItem(newDescription, newAssignedTo, date) {
+    console.log('Edit-Button clicked' + '\t' + this.id + '\t' + newDescription + '\t' + newAssignedTo + '\t');
     this.httpClient.patch<ITodo>(this.API_URL + '/todos/' + this.id, {
       'description': newDescription,
-      'assignedTo': newAssignedTo
+      'assignedTo': newAssignedTo,
+      'dueDate': date
     }).subscribe(
       (val) => {
         console.log('Edit successful');
@@ -108,10 +109,11 @@ export class AppComponent {
     this.currentUser = null;
   }
 
-  addTodoItem(todoDescription, todoAssignedTo, id) {
+  addTodoItem(todoDescription, todoAssignedTo, date) {
     this.httpClient.post<ITodo>(this.API_URL + '/todos', {
       'description': todoDescription,
-      'assignedTo': todoAssignedTo
+      'assignedTo': todoAssignedTo,
+      'dueDate': date
     }).subscribe(
       (val) => {
         console.log('Post successful');
