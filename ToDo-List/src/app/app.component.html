@@ -22,7 +22,7 @@
 
   <mat-form-field>
     <mat-select placeholder="Assign to" #todoAssignedTo>
-      <mat-option *ngFor="let person of people | async; let i = index" [value]="person.name">
+      <mat-option *ngFor="let person of people | async; let i = index" [(value)]="person.name">
         {{person.name}}
       </mat-option>
     </mat-select>
@@ -47,8 +47,11 @@
 
   <mat-form-field>
     <mat-select placeholder="Assign to" [(value)]="assignedTo" #todoAssignedTo>
-      <mat-option *ngFor="let person of people | async; let i = index" [value]="person.name">
+      <mat-option *ngFor="let person of people | async; let i = index" [(value)]="person.name">
         {{person.name}}
+      </mat-option>
+      <mat-option value="Nobody">
+        Nobody
       </mat-option>
     </mat-select>
   </mat-form-field>
